@@ -13,3 +13,25 @@ datasource db {
   url      = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
+
+enum Role {
+  ADMIN
+  READER
+}
+
+model User {
+  id          Int     @id @default(autoincrement())
+  userName    String  @unique
+  email       String  @unique
+  password    String
+  role        Role    @default(READER)
+  profile     Profile?
+}
+
+model Profile {
+  id          Int       @id @default(autoincrement())
+  userId      Int       @unique
+  user        User      @relation(fields: [userId], references: [id])
+  firstName   String
+  lastName    String
+}
