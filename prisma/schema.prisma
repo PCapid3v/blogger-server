@@ -24,6 +24,8 @@ model User {
   userName    String  @unique
   email       String  @unique
   password    String
+  posts       Post[]
+  comments    Comment[]
   role        Role    @default(READER)
   profile     Profile?
 }
@@ -34,4 +36,27 @@ model Profile {
   user        User      @relation(fields: [userId], references: [id])
   firstName   String
   lastName    String
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  Int?
+  comments  Comment[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
