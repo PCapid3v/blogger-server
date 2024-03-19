@@ -39,22 +39,42 @@ model Profile {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
-  comments  Comment[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String?
+  published   Boolean  @default(false)
+  category    String?
+  subCategory String?
+  authorName  String?
+  authorId    Int?
+  author      User?    @relation(fields: [authorId], references: [id])
+  upvoters    Upvote[]
+  downvoters  Downvote[]
+  comments    Comment[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+
+model Upvote {
+  id      Int @id @default(autoincrement())
+  post    Post @relation(fields: [postId],references: [id], onDelete: Cascade)
+  postId  Int
+  votedBy String?
+}
+
+model Downvote{
+   id      Int @id @default(autoincrement())
+  post    Post @relation(fields: [postId],references: [id],onDelete : Cascade)
+  postId  Int
+  votedBy String?
 }
 
 model Comment {
   id        Int      @id @default(autoincrement())
   text      String
-  post      Post     @relation(fields: [postId], references: [id])
-  postId    Int
+  post      Post?     @relation(fields: [postId], references: [id])
+  postId    Int?
   author    User?    @relation(fields: [authorId], references: [id])
   authorId  Int?
   createdAt DateTime @default(now())
