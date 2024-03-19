@@ -55,7 +55,7 @@ export default class User {
       userName: this.userName,
       email: this.email,
       password: this.passwordHash,
-      role: this.role      
+      role: this.role,
     };
 
     if (this.firstName && this.lastName) {
@@ -75,25 +75,34 @@ export default class User {
     });
     return User.fromDb(createdUser);
   }
+  static async findAll() {
+    const users = await dbClient.user.findMany({
+      include: {
+        profile: true,
+      },
+    });
+    return users.map((user) => User.fromDb(user));
+  }
   static async findById(id) {
     const foundUser = await dbClient.user.findUnique({
       where: {
         id,
       },
-    })
+    });
     if (foundUser) {
-      return foundUser
+      return foundUser;
     }
     return null;
   }
+
   static async findByEmail(email) {
     const foundUser = await dbClient.user.findUnique({
       where: {
         email,
       },
-    })
+    });
     if (foundUser) {
-      return foundUser
+      return foundUser;
     }
     return null;
   }
@@ -111,6 +120,7 @@ export default class User {
         profile: true,
       },
     });
+
     return User.fromDb(createdUser);
   }
 }

@@ -28,6 +28,16 @@ export const createUser = async (req, res) => {
     }
 };
 
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.status(200).json(users.map((user) => user.toJson()));
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 export const getById = async (req, res) => {
     const id = Number(req.params.id);
 
