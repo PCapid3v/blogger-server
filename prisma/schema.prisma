@@ -42,10 +42,12 @@ model Post {
   id          Int      @id @default(autoincrement())
   title       String
   content     String?
+  cover       String?
   published   Boolean  @default(false)
   category    String?
   subCategory String?
   authorName  String?
+  authorAvatar String
   authorId    Int?
   author      User?    @relation(fields: [authorId], references: [id])
   upvoters    Upvote[]

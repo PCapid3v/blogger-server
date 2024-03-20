@@ -5,8 +5,10 @@ export default class Post {
         id,
         title,
         content,
+        cover,
         published,
         category,
+        authorAvatar,
         author,
         authorId,
         upvoters,
@@ -17,8 +19,10 @@ export default class Post {
         this.id = id;
         this.title = title;
         this.content = content || null;
+        this.cover = cover || "";
         this.published = published;
         this.category = category || "Uncategorized";
+        this.authorAvatar = authorAvatar || "";
         this.author = author || null;
         this.authorId = authorId || null;
         this.upvoters =upvoters || [];
@@ -27,13 +31,15 @@ export default class Post {
         this.updatedAt = updatedAt || new Date();
     }
 
-    static async create(title, content, published,category, author, authorId, upvoters) {
+    static async create(title, content, published,category,cover,authorAvatar, author, authorId, upvoters) {
         const newPost = new Post(
             null,
             title,
             content,
+            cover,
             published,
             category,
+            authorAvatar,
             author,
             authorId,
             upvoters,
